@@ -38,7 +38,7 @@ const SignUp = () => {
 
         <Link to="/" className="flex items-center gap-1 absolute left-8 top-8 text-sm font font-medium text-color1" ><BiHome className="text-lg" /> <span>Back to home</span></Link>
 
-        <div className="w-0 lg:w-1/2 h-full flex-col justify-center items-centerbg-primary-colour bg-[url(/assets/login-bg.jpg)] bg-cover bg-center bg-no-repeat"></div>
+        <div style={{ backgroundImage : "url(/src/assets/login-bg.jpg)" }} className="w-0 lg:w-1/2 h-full flex-col justify-center items-centerbg-primary-colour bg-cover bg-center bg-no-repeat"></div>
 
       </div>
     </>
