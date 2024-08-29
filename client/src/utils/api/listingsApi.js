@@ -68,4 +68,18 @@ const deleteLilsting = async (listingId) => {
   }
 }
 
-export { fetchListings, fetchListing, addNewListing, fetchLatlon, deleteLilsting }
+const fetchMinMaxPrice = async () => {
+  try {
+    const response = await api.get("/listings/getprices");
+    const prices = response.data.prices;
+    const minMaxPrices = {
+      min: prices[0].minPrice,
+      max: prices[0].maxPrice
+    }
+    return  minMaxPrices
+  } catch (error) {
+    throw error;
+  }
+};
+
+export { fetchListings, fetchListing, addNewListing, fetchLatlon, deleteLilsting, fetchMinMaxPrice }

@@ -18,7 +18,7 @@ const AddListing = () => {
   const navigate = useNavigate()
   const [images, setImages] = useState([])
   const [coordinates, setCoordinates] = useState({ lat: "", long: "" })
-  const { register, control, handleSubmit, watch, formState: { errors, isSubmitting }, setError } = useForm({ resolver: yupResolver(listingSchema) })
+  const { register, control, handleSubmit, watch, formState: { errors, isSubmitting } } = useForm({ resolver: yupResolver(listingSchema) })
   const user = useGlobalStateStore(state => state.user)
   const timeoutRef = useRef(null)
 
