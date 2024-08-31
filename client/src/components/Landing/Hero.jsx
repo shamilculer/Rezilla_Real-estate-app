@@ -4,7 +4,7 @@ import SearchBarTab from "../SearchBarTab"
 
 const Hero = () => {
   return (
-    <section className="w-full bg-top bg-no-repeat" style={{ backgroundImage : `url(${heroSvg})`, backgroundSize: "85%" }}>
+    <section className="w-full bg-top bg-no-repeat" style={{ backgroundImage : `url(${heroSvg})`, backgroundSize: "80%" }}>
       <div className="container">
         <div className="py-6 sm:py-14 flex max-lg:block">
           <div className="w-1/2 max-lg:w-full relative flex flex-col gap-y-3 sm:gap-y-5">
