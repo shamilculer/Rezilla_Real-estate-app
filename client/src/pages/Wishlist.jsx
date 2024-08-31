@@ -37,12 +37,15 @@ const Wishlist = () => {
                         <h2 className="font-medium">My Wishlist</h2>
 
                     </div>
-                    <div className="flex items-center gap-5 w-full justify-end mt-6">
-                        {user?.wishlist.length > 0 &&
-                            <button onClick={clearWishlist} className="flex items-center gap-2 underline p-1 rounded hover:bg-red-500 hover:text-white transition-all max-sm:text-sm"><FaTrash /> Clear Wishlist</button>}
+                    {user?.wishlist.length > 0 && (
+                        <div className="flex items-center gap-5 w-full justify-end mt-6">
+                            {user?.wishlist.length > 0 &&
+                                <button onClick={clearWishlist} className="flex items-center gap-2 underline p-1 rounded hover:bg-red-500 hover:text-white transition-all max-sm:text-sm"><FaTrash /> Clear Wishlist</button>}
 
-                        <Link to="/listing" className="btn-primary">View More Properties</Link>
-                    </div>
+                            <Link to="/listing" className="btn-primary">View More Properties</Link>
+                        </div>
+                    )}
+
                     {user?.wishlist?.length < 1 ? (
                         <div className="h-72 w-full flex flex-col items-center justify-center gap-5">
                             <h3 className="text-center">Your wishlist is empty</h3>

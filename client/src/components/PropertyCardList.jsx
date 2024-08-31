@@ -18,10 +18,9 @@ const PropertyCardList = ({listings}) => {
     mutationFn: () => updateUser(user),
     onSuccess: (user) => {
       setUser(user)
-      setOnWishlist(!onWishlist)
+      toast.success("Wishlist updated successfully")
     },
     onError: (error) => {
-      console.log(error)
       toast.error("Error updating the wishlist")
     }
   })

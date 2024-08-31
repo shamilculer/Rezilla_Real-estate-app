@@ -202,6 +202,7 @@ function CurrentChatBox({ socket }) {
 
                     <div style={{ height: `calc(100% - ${70 + (formRef.current?.clientHeight || 0)}px)` }} className="overflow-y-auto overflow-x-hidden custom-scrollbar px-4 flex flex-col">
                         {currentChat?.messages?.map((message, index) => {
+                            console.log(message.sender)
                             return (
                                 <div key={index} className={`w-full my-[10px] first-of-type:mt-6 last-of-type:mb-6 flex ${message.sender !== currentChat.reciever._id && "justify-end"}`}>
                                     <div className={`w-auto max-w-[70%] px-4 sm:px-6 py-1 sm:py-2 max-sm:text-sm rounded-md bg-opacity-65 overflow-hidden text-sm flex flex-col ${message.sender === currentChat.reciever._id ? "bg-gray-200" : "bg-cyan-100"}`}>

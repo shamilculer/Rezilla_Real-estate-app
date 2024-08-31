@@ -69,6 +69,7 @@ const SingleProperty = () => {
       listingUser
     }),
     onSuccess: (chatId) => {
+      toast.success("Wishlist updated successfully")
       navigate(`/inbox?chat=${chatId}`)
     },
     onError: (error) => {
@@ -85,7 +86,6 @@ const SingleProperty = () => {
       }
     },
     onError : (error) => {
-      console.log(error)
       toast.error("Failed to delete listing")
     }
   })
@@ -235,8 +235,9 @@ const SingleProperty = () => {
                       <>
                         <button
                           onClick={handleWishlistChange}
+                          disabled={userUpdateMutation.isPending}
                           className={clsx(
-                            "flex justify-center py-2 px-3 items-center gap-x-1 text-sm rounded-3xl hover:bg-red-600 hover:text-white ring-1 max-xl:w-full",
+                            "flex justify-center py-2 px-3 items-center gap-x-1 text-sm rounded-3xl hover:bg-red-600 hover:text-white ring-1 max-xl:w-full disabled:bg-gray-300 disabled:text-white",
                             onWishlist ? "bg-red-600 text-white" : "bg-white text-black"
                           )}
                         >

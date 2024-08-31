@@ -22,6 +22,10 @@ const clearUserWishlist = async (user) => {
 
 const updateUser = async (user) => {
     try {
+        if(user.wishlist.length === 0){
+            const response = await clearUserWishlist(user)
+            return response
+        }
         const response = await api.put(`/user/update/${user._id}`, user, {
             headers: {
                 'Content-Type': 'multipart/form-data'

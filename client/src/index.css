@@ -89,7 +89,9 @@ h5 {
     @apply text-3xl
 }
 
-
+.bg-herosvg{
+    background-image: url(../src/assets/hero-bg.svg);
+}
 
 .custom-grid {
     display: grid;

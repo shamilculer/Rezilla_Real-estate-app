@@ -6,9 +6,6 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundImage : {
-        herosvg : "url(./src/assets/hero-bg.svg)"
-      },
       colors: {
         "primary-colour": "#3A0CA3",
         "color1": "#4361EE",

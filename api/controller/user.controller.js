@@ -7,7 +7,6 @@ const updateUser = async (req, res) => {
     const { id } = req.params;
     const { password, confirmedPassword, _id, ...rest } = req.body;
     const newProfileImage = req.file
-
     try {
         // Check if the user is authorized to update
         if (id !== _id) {
@@ -45,7 +44,6 @@ const updateUser = async (req, res) => {
 
         // Exclude password from the response
         const { password: _, ...updatedUser } = updatedUserInfo._doc;
-
         res.status(200).json({ message: "User updated successfully", updatedUser });
     } catch (error) {
         console.log(error);
