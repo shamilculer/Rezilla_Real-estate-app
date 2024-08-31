@@ -66,7 +66,17 @@ const Profile = () => {
 
                             </div>
                             <div className="w-full xl:w-2/5 bg-[#f4f4f4] rounded-md py-12 px-8">
-                                <h3 className="font-medium">Messages</h3>
+                                <h3 className="font-medium">New Messages</h3>
+                                <div className="mt-6 flex flex-col gap-2">
+                                    {/* <div className="bg-white p-3 rounded-lg">
+                                        <div className="flex items-center gap-2">
+                                            <img className="size-6 sm:size-8 rounded-full" src="https://via.placeholder.com/30" alt="user" />
+                                            <h5 className="font-medium">John Doe</h5>
+                                        </div>
+                                        <p className="text-sm mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                                    </div> */}
+                                    
+                                </div>
                             </div>
                         </div>
                     </div>

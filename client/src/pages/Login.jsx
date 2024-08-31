@@ -4,6 +4,7 @@ import useGlobalStateStore from "../store/store"
 import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { BiHome } from "react-icons/bi"
+import { loginBg } from "../assets"
 
 const Login = () => {
   const user = useGlobalStateStore((state) => state.user)
@@ -17,7 +18,7 @@ const Login = () => {
     <>
       <div className="h-screen w-full flex">
 
-      <div style={{ backgroundImage : "url(/src/assets/login-bg.jpg)" }} className="w-0 lg:w-1/2 h-full flex flex-col justify-center items-centerbg-primary-colour  bg-cover bg-center bg-no-repeat"></div>
+      <div style={{backgroundImage : `url(${loginBg})`}} className="w-0 lg:w-1/2 h-full flex flex-col justify-center items-centerbg-primary-colour bg-cover bg-center bg-no-repeat"></div>
 
         <Link to="/" className="flex items-center gap-1 absolute right-8 top-8 text-sm font font-medium text-color1" ><BiHome className="text-lg" /> <span>Back to home</span></Link>
 

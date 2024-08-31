@@ -1,10 +1,10 @@
 import { listing, usersAvatar } from "../../assets"
-import { heroBg } from "../../assets"
+import { heroBg, heroSvg } from "../../assets"
 import SearchBarTab from "../SearchBarTab"
 
 const Hero = () => {
   return (
-    <section className="w-full bg-[/assets/hero-bg.svg)] bg-top bg-no-repeat" style={{ backgroundSize: "85%" }}>
+    <section className="w-full bg-top bg-no-repeat" style={{ backgroundSize: "85%", backgroundImage : `url(${heroSvg})` }}>
       <div className="container">
         <div className="py-6 sm:py-14 flex max-lg:block">
           <div className="w-1/2 max-lg:w-full relative flex flex-col gap-y-3 sm:gap-y-5">

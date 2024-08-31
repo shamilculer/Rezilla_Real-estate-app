@@ -10,6 +10,8 @@ import roundTxt from "./round-txt.svg"
 import homePng from "./home.png"
 import heroBg from "./hero.png"
 import errorImg from "./error.svg"
+import heroSvg from "./hero-bg.svg"
+import loginBg from "./login-bg.jpg"
   
 export {
     logo,
@@ -23,5 +25,7 @@ export {
     homePng,
     logoW,
     heroBg,
-    errorImg
+    errorImg,
+    heroSvg,
+    loginBg
 }

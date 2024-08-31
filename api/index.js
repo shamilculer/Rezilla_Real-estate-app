@@ -10,7 +10,6 @@ import listingRoutes from "./routes/listing.route.js"
 import userRoutes from "./routes/user.route.js"
 import chatRoutes from "./routes/chat.route.js"
 
-
 const app = express()
 dotenv.config()
 const httpServer = createServer(app)

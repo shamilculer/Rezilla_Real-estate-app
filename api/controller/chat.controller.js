@@ -29,13 +29,16 @@ const getChat = async (req, res) => {
     try {
         const chat = await Chat.findById(chatId);
         if (chat) {
+
             await chat.populate("participants", "username email profileImage")
             await chat.populate("messages")
-            const messager = chat.participants.find( p => p._id.toString() !== userId.toString() );
+
+            const reciever = chat.participants.find( p => p._id.toString() !== userId.toString() );
 
             const responseChat = {
                 ...chat._doc,
-                messager
+                messager : userId,
+                reciever
             }
 
             return res.status(200).json({ message: "Chat fetched successfully", responseChat });
@@ -54,19 +57,22 @@ const getChats = async (req, res) => {
         const userchats = await Chat.find({ participants: { $in: [userId] } })
         .populate("participants", "username email profileImage")
         .populate("lastMessage")
+        .populate("messages")
         .sort({ updatedAt: -1 })
 
         const chats = userchats.map(chat => {
             const messager = chat.participants.find(
               p => p._id.toString() !== userId
             );
-            const { _id, createdAt, updatedAt, lastMessage } = chat
+            const { _id, createdAt, updatedAt, lastMessage, messages, unreadCounts } = chat
             return {
               _id,
               messager,
+              messages,
               createdAt,
               updatedAt,
-              lastMessage  
+              lastMessage,
+              unreadCounts  
             };
         }); 
 
@@ -105,17 +111,25 @@ const addMessgae = async (req, res) => {
 
         chat.messages.push(newMessage._id)
         chat.lastMessage = newMessage._id
-        await chat.save()
 
         await chat.populate("messages")
         await chat.populate('lastMessage')
         await chat.populate("participants", "username email profileImage")
 
-        const messager = chat.participants.find( p => p._id.toString()!== userId.toString() );
+        const reciever = chat.participants.find(p => p._id.toString() !== userId.toString());
+
+        chat.participants.forEach(async (participant) => {
+            if (participant._id.toString() === reciever._id.toString()) {
+              chat.unreadCounts.set(participant._id.toString(), (chat.unreadCounts.get(participant._id.toString()) || 0) + 1);
+            }
+        });
+
+        await chat.save()
 
         const responseChat = {
             ...chat._doc,
-            messager
+            messager : userId,
+            reciever
         }
 
         res.status(201).json({ message: "message added successfully", responseChat })

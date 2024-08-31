@@ -28,6 +28,7 @@ function CurrentChatBox({ socket }) {
         enabled: !!chatId
     })
 
+
     const messageSubmitMutation = useMutation({
         mutationFn : ({chatId, message}) => submitMessage({chatId, message}),
         onSuccess : (updatedChat) => {
@@ -39,7 +40,7 @@ function CurrentChatBox({ socket }) {
                 textarea.style.height = "auto";
             }
 
-            const { messager, ...data } = updatedChat
+            const { reciever, ...data } = updatedChat
 
             queryClient.setQueryData(["chats", user._id], (oldChats) => {
                 if (!oldChats) return oldChats;
@@ -57,31 +58,66 @@ function CurrentChatBox({ socket }) {
             });
 
             socket.emit("sendMessage", {
-                recieverId: messager._id,
+                recieverId: reciever._id,
                 data: data
             })
 
         },
         onError : (error) => {
-            console.log(error);
             toast.error("Failed to send message. Please try again.")
         }
     })
 
     useEffect(() => {
+        if (chatId && user._id && socket) {
+            socket.emit('markMessagesAsRead', { chatId, userId: user._id });
 
-        socket?.on("recieveMessage", (data) => {
-            queryClient.setQueryData(["chat", chatId], (prev) => {
+            // Update local query data
+            queryClient.setQueryData(['chat', chatId], (prevChat) => {
+                if (!prevChat) return prevChat;
                 return {
-                    ...prev,
-                    messager: [prev.messager, data]
-                }
-            })
+                    ...prevChat,
+                    unreadCounts: {
+                        ...prevChat.unreadCounts,
+                        [user._id]: 0 
+                    }
+                };
+            });
 
+            // Update the chats list query data
+            queryClient.setQueryData(["chats", user._id], (oldChats) => {
+                if (!oldChats) return oldChats;
+                return oldChats.map(chat => {
+                    if (chat._id === chatId) {
+                        return {
+                            ...chat,
+                            unreadCounts: {
+                                ...chat.unreadCounts,
+                                [user._id]: 0
+                            }
+                        };
+                    }
+                    return chat;
+                });
+            });
+        }
+    }, [chatId, user._id, socket]);
+
+
+    useEffect(() => {
+
+        socket?.on("recieveMessage", ({recieverId, data}) => {
+            queryClient.setQueryData(["chat", chatId], (prev) => {
+            socket.emit('markMessagesAsRead', { chatId, userId: user._id });
+                return {
+                    ...data,
+                    reciever: prev.reciever
+                }
+        })
 
             queryClient.setQueryData(["chats", user._id], (oldChats) => {
                 if (!oldChats) return oldChats;
-                const chatIndex = oldChats.findIndex(chat => chat._id === data?.messages[data.messages.length -1].chat);
+                const chatIndex = oldChats.findIndex(chat => chat._id === data?.messages[data.messages?.length -1].chat);
                 if (chatIndex === -1) return oldChats;
     
                 const updatedChat = {
@@ -152,24 +188,23 @@ function CurrentChatBox({ socket }) {
                         <div>
                             <img
                                 className="size-8 sm:size-10 rounded-full"
-                                src={currentChat?.messager?.profileImage}
-                                alt={currentChat?.messager?.username}
+                                src={currentChat?.reciever?.profileImage}
+                                alt={currentChat?.reciever?.username}
                             />
                         </div>
 
                         <div className="flex flex-col">
-                            <h4 className="max-sm:text-sm font-semibold">{currentChat?.messager?.username}</h4>
-                            <span className="text-[8px] sm:text-xs">{currentChat?.messager?.email}</span>
+                            <h4 className="max-sm:text-sm font-semibold">{currentChat?.reciever?.username}</h4>
+                            <span className="text-[8px] sm:text-xs">{currentChat?.reciever?.email}</span>
                         </div>
                     </div>
 
 
                     <div style={{ height: `calc(100% - ${70 + (formRef.current?.clientHeight || 0)}px)` }} className="overflow-y-auto overflow-x-hidden custom-scrollbar px-4 flex flex-col">
                         {currentChat?.messages?.map((message, index) => {
-
                             return (
-                                <div key={index} className={`w-full my-[10px] first-of-type:mt-6 last-of-type:mb-6 flex ${message.sender !== currentChat.messager._id && "justify-end"}`}>
-                                    <div className={`w-auto max-w-[70%] px-4 sm:px-6 py-1 sm:py-2 max-sm:text-sm rounded-md bg-opacity-65 overflow-hidden text-sm flex flex-col ${message.sender === currentChat.messager._id ? "bg-gray-200" : "bg-cyan-100"}`}>
+                                <div key={index} className={`w-full my-[10px] first-of-type:mt-6 last-of-type:mb-6 flex ${message.sender !== currentChat.reciever._id && "justify-end"}`}>
+                                    <div className={`w-auto max-w-[70%] px-4 sm:px-6 py-1 sm:py-2 max-sm:text-sm rounded-md bg-opacity-65 overflow-hidden text-sm flex flex-col ${message.sender === currentChat.reciever._id ? "bg-gray-200" : "bg-cyan-100"}`}>
                                         {message.message}
                                     <span className="text-[7px] sm:text-[10px] font-medium ml-auto">{formatTimestamp(message.createdAt)}</span>
                                     </div>
