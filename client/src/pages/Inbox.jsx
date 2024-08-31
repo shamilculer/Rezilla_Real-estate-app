@@ -25,7 +25,6 @@ const Inbox = () => {
 
     useEffect(() => {
         const socketInstance = io(import.meta.env.VITE_API_URL);
-        console.log(socketInstance)
         setSocket(socketInstance);
         socketInstance.emit("newUser", user._id);
 
