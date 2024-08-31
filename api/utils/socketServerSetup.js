@@ -36,13 +36,17 @@ const setupSocketServer = (httpServer) => {
 
 
     io.on("connection", (socket) => {
+        console.log("socket connected" + socket)
         socket.on("newUser", (userId) => {
+            console.log("new user" + userId)
             addUser(userId, socket.id);
         });
 
         socket.on("sendMessage", ({ recieverId, data }) => {
+            console.log("new message recieved")
             const reciever = getUser(recieverId);
             if (reciever) {
+                console.log("found a connected reciever")
                 io.to(reciever).emit("recieveMessage", {
                     recieverId,
                     data

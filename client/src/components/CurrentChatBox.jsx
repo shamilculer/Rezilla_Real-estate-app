@@ -107,6 +107,7 @@ function CurrentChatBox({ socket }) {
     useEffect(() => {
 
         socket?.on("recieveMessage", ({recieverId, data}) => {
+            console.log("recieved new message" + recieverId) 
             queryClient.setQueryData(["chat", chatId], (prev) => {
             socket.emit('markMessagesAsRead', { chatId, userId: user._id });
                 return {
