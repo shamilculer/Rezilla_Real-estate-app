@@ -119,10 +119,10 @@ const Filter = () => {
                     defaultValue={queryValues.type}
                     onValueChange={(value) => setQueryValues(prevQuery => ({ ...prevQuery, type: value }))}
                   >
-                    {['any', 'rent', 'buy'].map((type) => (
+                    {['any', 'rent', 'buy'].map((type, index) => (
                       <div key={type} className="h-12 sm:h-14">
                         <RadioGroup.Item
-                          className="filter-radio w-full h-full flex items-center justify-center border border-gray-400 font-medium hover:bg-primary-colour hover:text-white transition-all cursor-pointer rounded-l-2xl max-sm:text-sm"
+                          className={`filter-radio w-full h-full flex items-center justify-center border border-gray-400 font-medium hover:bg-primary-colour hover:text-white transition-all cursor-pointer ${index === 0 && "rounded-s-xl"} ${index === 2 && "rounded-e-xl"} max-sm:text-sm`}
                           value={type}
                           id={type}
                         >

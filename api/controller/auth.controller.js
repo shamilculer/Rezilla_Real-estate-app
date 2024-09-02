@@ -154,5 +154,4 @@ const logout = (req, res) => {
     res.clearCookie("token").status(200).json({ message: "Logout Successful" });
 }
 
-
 export { register, login, googleLogin, logout }

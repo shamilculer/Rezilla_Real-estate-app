@@ -15,7 +15,7 @@ const Profile = () => {
 
     const user = useGlobalStateStore((state) => state.user)
 
-    const { data: userListings, isLoading, isError, error, isSuccess, refetch } = useQuery({
+    const { data: userListings, isLoading, isError, isSuccess, refetch } = useQuery({
         queryKey: ["userListings", user._id],
         queryFn: fetchUserListings
     })
@@ -44,7 +44,7 @@ const Profile = () => {
                         </div>
 
                         <div className="flex max-xl:flex-col-reverse gap-4 xl:gap-16">
-                            <div className="w-full xl:w-3/5 py-12">
+                            <div className="w-full py-12">
                                 <h3 className="font-medium">My Listings</h3>
 
                                 {isLoading && (
@@ -57,26 +57,13 @@ const Profile = () => {
 
                                 {isSuccess && userListings.length > 0 ? (
                                     <PropertyCardList listings={userListings} />
-                                ): (
+                                ) : (
                                     <div className="w-full h-[40vh] flex flex-col gap-4 items-center justify-center">
                                         <h4 className="text-center">No listings found</h4>
                                         <Link to="/listing/new" className="btn-primary">Add Listings</Link>
                                     </div>
                                 )}
 
-                            </div>
-                            <div className="w-full xl:w-2/5 bg-[#f4f4f4] rounded-md py-12 px-8">
-                                <h3 className="font-medium">New Messages</h3>
-                                <div className="mt-6 flex flex-col gap-2">
-                                    {/* <div className="bg-white p-3 rounded-lg">
-                                        <div className="flex items-center gap-2">
-                                            <img className="size-6 sm:size-8 rounded-full" src="https://via.placeholder.com/30" alt="user" />
-                                            <h5 className="font-medium">John Doe</h5>
-                                        </div>
-                                        <p className="text-sm mt-1">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-                                    </div> */}
-                                    
-                                </div>
                             </div>
                         </div>
                     </div>

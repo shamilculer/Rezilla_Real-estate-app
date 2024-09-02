@@ -274,7 +274,7 @@ const SingleProperty = () => {
 
                 </h5>
 
-                <button className="btn-primary min-w-max">Contact Owner</button>
+                <button onClick={handleContactOwner} className="btn-primary min-w-max">Contact Owner</button>
 
               </div>
 

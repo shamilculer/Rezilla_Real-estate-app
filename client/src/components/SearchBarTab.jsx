@@ -15,7 +15,7 @@ const SearchBarTab = () => {
   const onSearchSubmit = (e) => {
     e.preventDefault()
 
-    const cityname = e.target.cityname.value
+    const cityname = e.target.cityname.value.toLowerCase()
     const minPrice = e.target.minPrice.value
     const maxPrice = e.target.maxPrice.value
 

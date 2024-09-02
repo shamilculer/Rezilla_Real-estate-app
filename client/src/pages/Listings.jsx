@@ -1,18 +1,18 @@
 import { Filter, Map, Header, PropertyCardList, LoadingSkelton, ErrorComponent } from "../components"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import clsx from "clsx"
 import { useInfiniteQuery } from "@tanstack/react-query"
 import { useInView } from "react-intersection-observer"
 import { fetchListings } from "../utils/api/listingsApi"
+import { FaRegSadTear } from "react-icons/fa";
 
 const Listings = () => {
 
     const [searchParams] = useSearchParams()
     const [view, setView] = useState(null)
-    const  {ref, inView} = useInView()
- 
+    const { ref, inView } = useInView()
+
 
     useEffect(() => {
         const handleView = () => {
@@ -38,7 +38,7 @@ const Listings = () => {
         isFetchingNextPage,
         fetchNextPage,
         hasNextPage,
-        isLoading, 
+        isLoading,
         isError,
         isSuccess,
         refetch
@@ -48,13 +48,13 @@ const Listings = () => {
         getNextPageParam: (lastPage) => {
             return lastPage.hasNextPage ? lastPage.currentPage + 1 : undefined
         },
-      });
+    });
 
     useEffect(() => {
         if (inView && hasNextPage) {
-          fetchNextPage();
+            fetchNextPage();
         }
-      }, [inView]);
+    }, [inView]);
 
     const onViewChange = (e) => {
         setView(e.target.id)
@@ -75,16 +75,23 @@ const Listings = () => {
                         <div className={clsx("list overflow-y-auto h-[calc(100vh-170px)] custom-scrollbar", view === "map" && "hidden")}>
                             {isLoading && <LoadingSkelton count={3} />}
                             {isError && <ErrorComponent retryFn={refetch} />}
-                            {isSuccess && (
+                            {isSuccess && data.pages[0].listings?.length === 0 && (
+                                <div className="h-[50%] w-full flex flex-col items-center justify-center gap-4">
+                                    <FaRegSadTear className="text-5xl" />
+                                    <span className="font-medium text-lg text-center">No listings found matching <br/> your requirements</span>
+                                    
+                                </div>
+                            )}
+
+                            {isSuccess && data.pages[0].listings?.length > 0 && (
                                 <>
                                     <PropertyCardList listings={listings} />
                                     <div ref={ref} className="h-5 invisible">
-                                        {isFetchingNextPage
-                                            ? <LoadingSkelton count={2} />
-                                            : ''}
+                                        {isFetchingNextPage ? <LoadingSkelton count={2} /> : ''}
                                     </div>
                                 </>
                             )}
+
                         </div>
 
                         <div className={clsx("map", view === "map" || view === null ? "block h-screen" : "hidden")}>

@@ -1,6 +1,7 @@
 import { Server } from "socket.io";
 import Chat from "../models/chat.model.js";
 import Message from "../models/message.model.js";
+import User from "../models/user.model.js";
 
 const setupSocketServer = (httpServer) => {
 
@@ -36,17 +37,13 @@ const setupSocketServer = (httpServer) => {
 
 
     io.on("connection", (socket) => {
-        console.log("socket connected" + socket)
         socket.on("newUser", (userId) => {
-            console.log("new user" + userId)
             addUser(userId, socket.id);
         });
 
-        socket.on("sendMessage", ({ recieverId, data }) => {
-            console.log("new message recieved")
+        socket.on("sendMessage", async ({ recieverId, data }) => {
             const reciever = getUser(recieverId);
-            if (reciever) {
-                console.log("found a connected reciever")
+            if(reciever) {
                 io.to(reciever).emit("recieveMessage", {
                     recieverId,
                     data
