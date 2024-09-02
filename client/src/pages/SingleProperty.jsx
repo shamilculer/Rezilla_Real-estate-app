@@ -56,6 +56,7 @@ const SingleProperty = () => {
     onSuccess: (user) => {
       setUser(user)
       setOnWishlist(!onWishlist)
+      toast.success("Wishlist updated successfully")
     },
     onError: (error) => {
       console.log(error)
@@ -69,7 +70,6 @@ const SingleProperty = () => {
       listingUser
     }),
     onSuccess: (chatId) => {
-      toast.success("Wishlist updated successfully")
       navigate(`/inbox?chat=${chatId}`)
     },
     onError: (error) => {
