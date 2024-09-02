@@ -9,7 +9,6 @@ import authRoutes from "./routes/auth.route.js"
 import listingRoutes from "./routes/listing.route.js"
 import userRoutes from "./routes/user.route.js"
 import chatRoutes from "./routes/chat.route.js"
-import User from "./models/user.model.js"
 
 const app = express()
 dotenv.config()
@@ -33,15 +32,6 @@ const startServer = async () => {
 
         httpServer.listen(process.env.PORT || 3000, () => {
             console.log(`Server is running on port ${process.env.PORT || 3000 }`)
-        })
-
-        const users = await User.find()
-
-        users.map(async (user) => {
-            if(user.notifications.length > 0){
-                user.notifications = []
-                await user.save()
-            }
         })
         
         setupSocketServer(httpServer)
